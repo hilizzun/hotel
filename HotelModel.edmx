@@ -1,0 +1,793 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище hilizzunModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cleaning_Schedule">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="room_id" Type="int" />
+          <Property Name="cleaning_date" Type="date" Nullable="false" />
+          <Property Name="cleaner_id" Type="int" />
+          <Property Name="status" Type="nchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "hilizzun.dbo.Guest_Services" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="Guest_Services">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="quantity" />
+            <PropertyRef Name="status" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="reservation_id" Type="int" />
+          <Property Name="service_id" Type="int" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="status" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Guests">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="first_name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="last_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="phone" Type="nchar" MaxLength="20" />
+          <Property Name="document_number" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="id" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "hilizzun.dbo.Integrations" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="Integrations">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="name" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="integration_details" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Payments">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="reservation_id" Type="int" />
+          <Property Name="amount" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="payment_date" Type="date" Nullable="false" />
+          <Property Name="payment_method" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Reservations">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="guest_id" Type="int" />
+          <Property Name="room_id" Type="int" />
+          <Property Name="check_in_date" Type="date" Nullable="false" />
+          <Property Name="check_out_date" Type="date" Nullable="false" />
+          <Property Name="status" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="total_price" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "hilizzun.dbo.Room_Access" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="Room_Access">
+          <Key>
+            <PropertyRef Name="access_card_code" />
+            <PropertyRef Name="status" />
+          </Key>
+          <Property Name="guest_id" Type="int" />
+          <Property Name="room_id" Type="int" />
+          <Property Name="access_card_code" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="status" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rooms">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="floor" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="number" Type="int" Nullable="false" />
+          <Property Name="category" Type="nchar" MaxLength="255" Nullable="false" />
+          <Property Name="status" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="price_per_night" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Services">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="nchar" MaxLength="255" Nullable="false" />
+          <Property Name="price" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Statistics_hotel">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="occuppancy_rate" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="adr" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="revpar" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="revenue" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="lastname" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="firstname" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="username" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="role" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="password" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="FailedLoginAttempts" Type="int" Nullable="false" />
+          <Property Name="isLocked" Type="bit" />
+          <Property Name="isFirstLogin" Type="bit" />
+          <Property Name="LastLoginDate" Type="datetime" />
+          <Property Name="salt" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK_Cleaning_Schedule_Rooms">
+          <End Role="Rooms" Type="Self.Rooms" Multiplicity="0..1" />
+          <End Role="Cleaning_Schedule" Type="Self.Cleaning_Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rooms">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Cleaning_Schedule">
+              <PropertyRef Name="room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cleaning_Schedule_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Cleaning_Schedule" Type="Self.Cleaning_Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Cleaning_Schedule">
+              <PropertyRef Name="cleaner_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Guest_Services_Reservations">
+          <End Role="Reservations" Type="Self.Reservations" Multiplicity="0..1" />
+          <End Role="Guest_Services" Type="Self.Guest_Services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reservations">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Guest_Services">
+              <PropertyRef Name="reservation_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Guest_Services_Services">
+          <End Role="Services" Type="Self.Services" Multiplicity="1" />
+          <End Role="Guest_Services" Type="Self.Guest_Services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Guest_Services">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservations_Guests">
+          <End Role="Guests" Type="Self.Guests" Multiplicity="0..1" />
+          <End Role="Reservations" Type="Self.Reservations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guests">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Reservations">
+              <PropertyRef Name="guest_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservations_Rooms">
+          <End Role="Rooms" Type="Self.Rooms" Multiplicity="0..1" />
+          <End Role="Reservations" Type="Self.Reservations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rooms">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Reservations">
+              <PropertyRef Name="room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Room_Access_Guests">
+          <End Role="Guests" Type="Self.Guests" Multiplicity="0..1" />
+          <End Role="Room_Access" Type="Self.Room_Access" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guests">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Room_Access">
+              <PropertyRef Name="guest_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Room_Access_Rooms">
+          <End Role="Rooms" Type="Self.Rooms" Multiplicity="0..1" />
+          <End Role="Room_Access" Type="Self.Room_Access" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rooms">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Room_Access">
+              <PropertyRef Name="room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище hilizzunModelContainer">
+          <EntitySet Name="Cleaning_Schedule" EntityType="Self.Cleaning_Schedule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Guests" EntityType="Self.Guests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payments" EntityType="Self.Payments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reservations" EntityType="Self.Reservations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rooms" EntityType="Self.Rooms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Services" EntityType="Self.Services" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Statistics_hotel" EntityType="Self.Statistics_hotel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Guest_Services" EntityType="Self.Guest_Services" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Guest_Services].[id] AS [id], 
+    [Guest_Services].[reservation_id] AS [reservation_id], 
+    [Guest_Services].[service_id] AS [service_id], 
+    [Guest_Services].[quantity] AS [quantity], 
+    [Guest_Services].[status] AS [status]
+    FROM [dbo].[Guest_Services] AS [Guest_Services]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Integrations" EntityType="Self.Integrations" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Integrations].[id] AS [id], 
+    [Integrations].[name] AS [name], 
+    [Integrations].[integration_details] AS [integration_details]
+    FROM [dbo].[Integrations] AS [Integrations]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Room_Access" EntityType="Self.Room_Access" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Room_Access].[guest_id] AS [guest_id], 
+    [Room_Access].[room_id] AS [room_id], 
+    [Room_Access].[access_card_code] AS [access_card_code], 
+    [Room_Access].[status] AS [status]
+    FROM [dbo].[Room_Access] AS [Room_Access]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Cleaning_Schedule_Rooms" Association="Self.FK_Cleaning_Schedule_Rooms">
+            <End Role="Rooms" EntitySet="Rooms" />
+            <End Role="Cleaning_Schedule" EntitySet="Cleaning_Schedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cleaning_Schedule_Users" Association="Self.FK_Cleaning_Schedule_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Cleaning_Schedule" EntitySet="Cleaning_Schedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Guest_Services_Reservations" Association="Self.FK_Guest_Services_Reservations">
+            <End Role="Reservations" EntitySet="Reservations" />
+            <End Role="Guest_Services" EntitySet="Guest_Services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Guest_Services_Services" Association="Self.FK_Guest_Services_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="Guest_Services" EntitySet="Guest_Services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservations_Guests" Association="Self.FK_Reservations_Guests">
+            <End Role="Guests" EntitySet="Guests" />
+            <End Role="Reservations" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservations_Rooms" Association="Self.FK_Reservations_Rooms">
+            <End Role="Rooms" EntitySet="Rooms" />
+            <End Role="Reservations" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Room_Access_Guests" Association="Self.FK_Room_Access_Guests">
+            <End Role="Guests" EntitySet="Guests" />
+            <End Role="Room_Access" EntitySet="Room_Access" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Room_Access_Rooms" Association="Self.FK_Room_Access_Rooms">
+            <End Role="Rooms" EntitySet="Rooms" />
+            <End Role="Room_Access" EntitySet="Room_Access" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="hilizzunModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cleaning_Schedule">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="room_id" Type="Int32" />
+          <Property Name="cleaning_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="cleaner_id" Type="Int32" />
+          <NavigationProperty Name="Rooms" Relationship="Self.FK_Cleaning_Schedule_Rooms" FromRole="Cleaning_Schedule" ToRole="Rooms" />
+          <NavigationProperty Name="Services" Relationship="Self.FK_Cleaning_Schedule_Services" FromRole="Cleaning_Schedule" ToRole="Services" />
+          <NavigationProperty Name="Users" Relationship="hilizzunModel.FK_Cleaning_Schedule_Users" FromRole="Cleaning_Schedule" ToRole="Users" />
+          <Property Name="status" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Guests">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="first_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="last_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="document_number" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Room_Access" Relationship="Self.FK_Room_Access_Guests" FromRole="Guests" ToRole="Room_Access" />
+          <NavigationProperty Name="Reservations" Relationship="hilizzunModel.FK_Reservations_Guests" FromRole="Guests" ToRole="Reservations" />
+        </EntityType>
+        <EntityType Name="Payments">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="reservation_id" Type="Int32" />
+          <Property Name="amount" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="payment_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="payment_method" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Reservations">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="guest_id" Type="Int32" />
+          <Property Name="room_id" Type="Int32" />
+          <Property Name="check_in_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="check_out_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="total_price" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="Guest_Services" Relationship="Self.FK_Guest_Services_Reservations" FromRole="Reservations" ToRole="Guest_Services" />
+          <NavigationProperty Name="Rooms" Relationship="Self.FK_Reservations_Rooms" FromRole="Reservations" ToRole="Rooms" />
+          <NavigationProperty Name="Guests" Relationship="hilizzunModel.FK_Reservations_Guests" FromRole="Reservations" ToRole="Guests" />
+        </EntityType>
+        <EntityType Name="Rooms">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="floor" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="number" Type="Int32" Nullable="false" />
+          <Property Name="category" Type="String" MaxLength="255" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="price_per_night" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Cleaning_Schedule" Relationship="Self.FK_Cleaning_Schedule_Rooms" FromRole="Rooms" ToRole="Cleaning_Schedule" />
+          <NavigationProperty Name="Reservations" Relationship="Self.FK_Reservations_Rooms" FromRole="Rooms" ToRole="Reservations" />
+          <NavigationProperty Name="Room_Access" Relationship="Self.FK_Room_Access_Rooms" FromRole="Rooms" ToRole="Room_Access" />
+        </EntityType>
+        <EntityType Name="Services">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="price" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Cleaning_Schedule" Relationship="Self.FK_Cleaning_Schedule_Services" FromRole="Services" ToRole="Cleaning_Schedule" />
+          <NavigationProperty Name="Guest_Services" Relationship="Self.FK_Guest_Services_Services" FromRole="Services" ToRole="Guest_Services" />
+        </EntityType>
+        <EntityType Name="Statistics_hotel">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="occuppancy_rate" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="adr" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="revpar" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="revenue" Type="Decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="lastname" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="firstname" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FailedLoginAttempts" Type="Int32" Nullable="false" />
+          <Property Name="isLocked" Type="Boolean" />
+          <Property Name="isFirstLogin" Type="Boolean" />
+          <Property Name="LastLoginDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Cleaning_Schedule" Relationship="hilizzunModel.FK_Cleaning_Schedule_Users" FromRole="Users" ToRole="Cleaning_Schedule" />
+          <Property Name="salt" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Guest_Services">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="quantity" />
+            <PropertyRef Name="status" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="reservation_id" Type="Int32" />
+          <Property Name="service_id" Type="Int32" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Reservations" Relationship="Self.FK_Guest_Services_Reservations" FromRole="Guest_Services" ToRole="Reservations" />
+          <NavigationProperty Name="Services" Relationship="Self.FK_Guest_Services_Services" FromRole="Guest_Services" ToRole="Services" />
+        </EntityType>
+        <EntityType Name="Integrations">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="name" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="integration_details" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Room_Access">
+          <Key>
+            <PropertyRef Name="access_card_code" />
+            <PropertyRef Name="status" />
+          </Key>
+          <Property Name="guest_id" Type="Int32" />
+          <Property Name="room_id" Type="Int32" />
+          <Property Name="access_card_code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Guests" Relationship="Self.FK_Room_Access_Guests" FromRole="Room_Access" ToRole="Guests" />
+          <NavigationProperty Name="Rooms" Relationship="Self.FK_Room_Access_Rooms" FromRole="Room_Access" ToRole="Rooms" />
+        </EntityType>
+        <Association Name="FK_Cleaning_Schedule_Rooms">
+          <End Role="Rooms" Type="Self.Rooms" Multiplicity="0..1" />
+          <End Role="Cleaning_Schedule" Type="Self.Cleaning_Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rooms">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Cleaning_Schedule">
+              <PropertyRef Name="room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cleaning_Schedule_Services">
+          <End Role="Services" Type="Self.Services" Multiplicity="1" />
+          <End Role="Cleaning_Schedule" Type="Self.Cleaning_Schedule" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Cleaning_Schedule">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Room_Access_Guests">
+          <End Role="Guests" Type="Self.Guests" Multiplicity="0..1" />
+          <End Role="Room_Access" Type="Self.Room_Access" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guests">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Room_Access">
+              <PropertyRef Name="guest_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Guest_Services_Reservations">
+          <End Role="Reservations" Type="Self.Reservations" Multiplicity="0..1" />
+          <End Role="Guest_Services" Type="Self.Guest_Services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reservations">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Guest_Services">
+              <PropertyRef Name="reservation_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservations_Rooms">
+          <End Role="Rooms" Type="Self.Rooms" Multiplicity="0..1" />
+          <End Role="Reservations" Type="Self.Reservations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rooms">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Reservations">
+              <PropertyRef Name="room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Room_Access_Rooms">
+          <End Role="Rooms" Type="Self.Rooms" Multiplicity="0..1" />
+          <End Role="Room_Access" Type="Self.Room_Access" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rooms">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Room_Access">
+              <PropertyRef Name="room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Guest_Services_Services">
+          <End Role="Services" Type="Self.Services" Multiplicity="1" />
+          <End Role="Guest_Services" Type="Self.Guest_Services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Guest_Services">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="hilizzunEntitiesHotel" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cleaning_Schedule" EntityType="Self.Cleaning_Schedule" />
+          <EntitySet Name="Guests" EntityType="Self.Guests" />
+          <EntitySet Name="Payments" EntityType="Self.Payments" />
+          <EntitySet Name="Reservations" EntityType="Self.Reservations" />
+          <EntitySet Name="Rooms" EntityType="Self.Rooms" />
+          <EntitySet Name="Services" EntityType="Self.Services" />
+          <EntitySet Name="Statistics_hotel" EntityType="Self.Statistics_hotel" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <EntitySet Name="Guest_Services" EntityType="Self.Guest_Services" />
+          <EntitySet Name="Integrations" EntityType="Self.Integrations" />
+          <EntitySet Name="Room_Access" EntityType="Self.Room_Access" />
+          <AssociationSet Name="FK_Cleaning_Schedule_Rooms" Association="Self.FK_Cleaning_Schedule_Rooms">
+            <End Role="Rooms" EntitySet="Rooms" />
+            <End Role="Cleaning_Schedule" EntitySet="Cleaning_Schedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cleaning_Schedule_Services" Association="Self.FK_Cleaning_Schedule_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="Cleaning_Schedule" EntitySet="Cleaning_Schedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Room_Access_Guests" Association="Self.FK_Room_Access_Guests">
+            <End Role="Guests" EntitySet="Guests" />
+            <End Role="Room_Access" EntitySet="Room_Access" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Guest_Services_Reservations" Association="Self.FK_Guest_Services_Reservations">
+            <End Role="Reservations" EntitySet="Reservations" />
+            <End Role="Guest_Services" EntitySet="Guest_Services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservations_Rooms" Association="Self.FK_Reservations_Rooms">
+            <End Role="Rooms" EntitySet="Rooms" />
+            <End Role="Reservations" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Room_Access_Rooms" Association="Self.FK_Room_Access_Rooms">
+            <End Role="Rooms" EntitySet="Rooms" />
+            <End Role="Room_Access" EntitySet="Room_Access" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Guest_Services_Services" Association="Self.FK_Guest_Services_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="Guest_Services" EntitySet="Guest_Services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservations_Guests" Association="hilizzunModel.FK_Reservations_Guests">
+            <End Role="Guests" EntitySet="Guests" />
+            <End Role="Reservations" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cleaning_Schedule_Users" Association="hilizzunModel.FK_Cleaning_Schedule_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Cleaning_Schedule" EntitySet="Cleaning_Schedule" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK_Reservations_Guests">
+          <End Type="hilizzunModel.Guests" Role="Guests" Multiplicity="0..1" />
+          <End Type="hilizzunModel.Reservations" Role="Reservations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guests">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Reservations">
+              <PropertyRef Name="guest_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cleaning_Schedule_Users">
+          <End Type="hilizzunModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="hilizzunModel.Cleaning_Schedule" Role="Cleaning_Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Cleaning_Schedule">
+              <PropertyRef Name="cleaner_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище hilizzunModelContainer" CdmEntityContainer="hilizzunEntitiesHotel">
+          <EntitySetMapping Name="Cleaning_Schedule">
+            <EntityTypeMapping TypeName="hilizzunModel.Cleaning_Schedule">
+              <MappingFragment StoreEntitySet="Cleaning_Schedule">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="room_id" ColumnName="room_id" />
+                <ScalarProperty Name="cleaning_date" ColumnName="cleaning_date" />
+                <ScalarProperty Name="cleaner_id" ColumnName="cleaner_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Guests">
+            <EntityTypeMapping TypeName="hilizzunModel.Guests">
+              <MappingFragment StoreEntitySet="Guests">
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="document_number" ColumnName="document_number" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payments">
+            <EntityTypeMapping TypeName="hilizzunModel.Payments">
+              <MappingFragment StoreEntitySet="Payments">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="reservation_id" ColumnName="reservation_id" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="payment_date" ColumnName="payment_date" />
+                <ScalarProperty Name="payment_method" ColumnName="payment_method" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reservations">
+            <EntityTypeMapping TypeName="hilizzunModel.Reservations">
+              <MappingFragment StoreEntitySet="Reservations">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="guest_id" ColumnName="guest_id" />
+                <ScalarProperty Name="room_id" ColumnName="room_id" />
+                <ScalarProperty Name="check_in_date" ColumnName="check_in_date" />
+                <ScalarProperty Name="check_out_date" ColumnName="check_out_date" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="total_price" ColumnName="total_price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rooms">
+            <EntityTypeMapping TypeName="hilizzunModel.Rooms">
+              <MappingFragment StoreEntitySet="Rooms">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="floor" ColumnName="floor" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="category" ColumnName="category" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="price_per_night" ColumnName="price_per_night" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Services">
+            <EntityTypeMapping TypeName="hilizzunModel.Services">
+              <MappingFragment StoreEntitySet="Services">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Statistics_hotel">
+            <EntityTypeMapping TypeName="hilizzunModel.Statistics_hotel">
+              <MappingFragment StoreEntitySet="Statistics_hotel">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="occuppancy_rate" ColumnName="occuppancy_rate" />
+                <ScalarProperty Name="adr" ColumnName="adr" />
+                <ScalarProperty Name="revpar" ColumnName="revpar" />
+                <ScalarProperty Name="revenue" ColumnName="revenue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="hilizzunModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="hilizzunModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="salt" ColumnName="salt" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="lastname" ColumnName="lastname" />
+                <ScalarProperty Name="firstname" ColumnName="firstname" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="role" ColumnName="role" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="FailedLoginAttempts" ColumnName="FailedLoginAttempts" />
+                <ScalarProperty Name="isLocked" ColumnName="isLocked" />
+                <ScalarProperty Name="isFirstLogin" ColumnName="isFirstLogin" />
+                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Guest_Services">
+            <EntityTypeMapping TypeName="hilizzunModel.Guest_Services">
+              <MappingFragment StoreEntitySet="Guest_Services">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="reservation_id" ColumnName="reservation_id" />
+                <ScalarProperty Name="service_id" ColumnName="service_id" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Integrations">
+            <EntityTypeMapping TypeName="hilizzunModel.Integrations">
+              <MappingFragment StoreEntitySet="Integrations">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="integration_details" ColumnName="integration_details" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Room_Access">
+            <EntityTypeMapping TypeName="hilizzunModel.Room_Access">
+              <MappingFragment StoreEntitySet="Room_Access">
+                <ScalarProperty Name="guest_id" ColumnName="guest_id" />
+                <ScalarProperty Name="room_id" ColumnName="room_id" />
+                <ScalarProperty Name="access_card_code" ColumnName="access_card_code" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

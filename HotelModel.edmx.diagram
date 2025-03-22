@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f445639e5ee747c29a5405dbdadfb095" Name="Diagram1" ZoomLevel="86">
+        <EntityTypeShape EntityType="hilizzunModel.Cleaning_Schedule" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="hilizzunModel.Guests" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="hilizzunModel.Payments" Width="1.5" PointX="5.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="hilizzunModel.Reservations" Width="1.5" PointX="3" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="hilizzunModel.Rooms" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="hilizzunModel.Services" Width="1.5" PointX="0.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="hilizzunModel.Statistics_hotel" Width="1.5" PointX="7.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="hilizzunModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="hilizzunModel.Users" Width="1.5" PointX="9.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="hilizzunModel.Guest_Services" Width="1.5" PointX="5.25" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="hilizzunModel.Integrations" Width="1.5" PointX="9.75" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="hilizzunModel.Room_Access" Width="1.5" PointX="6" PointY="6" IsExpanded="true" />
+        <AssociationConnector Association="hilizzunModel.FK_Cleaning_Schedule_Rooms" ManuallyRouted="false" />
+        <AssociationConnector Association="hilizzunModel.FK_Cleaning_Schedule_Services" ManuallyRouted="false" />
+        <AssociationConnector Association="hilizzunModel.FK_Room_Access_Guests" ManuallyRouted="false" />
+        <AssociationConnector Association="hilizzunModel.FK_Guest_Services_Reservations" ManuallyRouted="false" />
+        <AssociationConnector Association="hilizzunModel.FK_Reservations_Rooms" ManuallyRouted="false" />
+        <AssociationConnector Association="hilizzunModel.FK_Room_Access_Rooms" ManuallyRouted="false" />
+        <AssociationConnector Association="hilizzunModel.FK_Guest_Services_Services" ManuallyRouted="false" />
+        <AssociationConnector Association="hilizzunModel.FK_Reservations_Guests" />
+        <AssociationConnector Association="hilizzunModel.FK_Cleaning_Schedule_Users" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
